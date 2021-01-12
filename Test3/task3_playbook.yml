@@ -14,9 +14,9 @@
       mail:
         host: smtp.gmail.com
         port: 587
-        username: robotframework.respiro@gmail.com
-        password: RF_Simpletask
-        to: hsallepalli@respiro.com.au
+        username: xxxx
+        password: xxxx
+        to: xxxx
         subject: PyATS-EVE-NG Complex test3 - neighbor change
         body: '{{ analysisreport.stdout }}'
         attach:
