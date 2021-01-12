@@ -1,0 +1,26 @@
+---
+  - hosts: localhost
+    tasks:
+    - name: Run complex task pyats job
+      command: pyats run job task2_job.py --html-logs /var/lib/awx/venv/pyats/pyatslogs/
+      become: true
+      register: job
+
+    - name: Display analysis report
+      shell: /usr/bin/python3 analysisreport.py
+      register: analysisreport
+
+    - name: Email the results
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: xxxxxx
+        password: xxxxxx
+        to: xxxxxxx
+        subject: PyATS-EVE-NG Complex test2 - network change
+        body: '{{ analysisreport.stdout }}'
+        attach:
+        - pre_doc.txt
+        - post_doc.txt
+        - /var/lib/awx/venv/pyats/pyatslogs/TaskLog.task2_job.html
+      delegate_to: localhost
