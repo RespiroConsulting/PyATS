@@ -1,0 +1,26 @@
+---
+  - hosts: localhost
+    tasks:
+    - name: Run complex task pyats job
+      command: pyats run job task3_job.py --html-logs /var/lib/awx/venv/pyats/pyatslogs/
+      become: true
+      register: job
+
+    - name: Display analysis report
+      shell: /usr/bin/python3 analysisreport.py
+      register: analysisreport
+
+    - name: Email the results
+      mail:
+        host: smtp.gmail.com
+        port: 587
+        username: robotframework.respiro@gmail.com
+        password: RF_Simpletask
+        to: hsallepalli@respiro.com.au
+        subject: PyATS-EVE-NG Complex test3 - neighbor change
+        body: '{{ analysisreport.stdout }}'
+        attach:
+        - pre_doc.txt
+        - post_doc.txt
+        - /var/lib/awx/venv/pyats/pyatslogs/TaskLog.task3_job.html
+      delegate_to: localhost
